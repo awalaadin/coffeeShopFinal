@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -19,8 +21,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Spring Security should completely ignore URLs starting with /resources/
                                 .antMatchers("/personWS/**","/orderWS/**","/productWS/**");
         }
+        
+      private CsrfTokenRepository csrfTokenRepository() 
+        { 
+            HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository(); 
+            repository.setSessionAttributeName("_csrf");
+            return repository; 
+        }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().csrfTokenRepository(csrfTokenRepository());
         http
             .authorizeRequests()
                 .antMatchers("/", "/home", "/index").permitAll()

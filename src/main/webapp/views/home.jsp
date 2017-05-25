@@ -18,5 +18,7 @@
 		The only user is "<b>super</b>" and the password is "<b>pw</b>"
 	<p>
 		<a href="<c:url value="/secure" />"> Go to Secure Area </a>
+                <br/><br/>
+                <a href="<c:url value="/testAPI" />"> Test Rest API </a>
 </body>
 </html>
